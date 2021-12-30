@@ -9,7 +9,7 @@ ADD ./src src/
 RUN mvn clean package
 
 # Second stage: minimal runtime environment
-From registry-vpc.cn-hangzhou.aliyuncs.com/huolaila-pro/java8
+From registry.cn-hangzhou.aliyuncs.com/huolaila-pro/java8
 
 # copy jar from the first stage
 COPY --from=builder target/tally-1.0.0-SNAPSHOT.jar tally-1.0.0-SNAPSHOT.jar

@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallyaccountwaterdetail.TallyAccountWaterDetailMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="water_id" jdbcType="INTEGER" property="waterId"/>
+    <result column="in_out_type_id" jdbcType="INTEGER" property="inOutTypeId"/>
+    <result column="in_out_type" jdbcType="INTEGER" property="inOutType"/>
+    <result column="in_out_type_name" jdbcType="LONGVARCHAR" property="inOutTypeName"/>
+    <result column="per_price" jdbcType="DECIMAL" property="perPrice"/>
+    <result column="number" jdbcType="INTEGER" property="number"/>
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="product_id" jdbcType="INTEGER" property="productId"/>
+    <result column="product_spec_id" jdbcType="INTEGER" property="productSpecId"/>
+    <result column="product_spec_name" jdbcType="LONGVARCHAR" property="productSpecName"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+  </resultMap>
+  <resultMap id="ResultMap" extends="BaseResultMap" type="com.tally.api.outputDto.WaterDetailOutputDto">
+    <result column="btype_user_id" jdbcType="INTEGER" property="btypeUserId"/>
+    <result column="btype_user_name" jdbcType="LONGVARCHAR" property="btypeUserName"/>
+    <result column="account_id" jdbcType="INTEGER" property="accountId"/>
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+    <result column="type" jdbcType="INTEGER" property="type"/>
+    <result column="type_name" jdbcType="LONGVARCHAR" property="typeName"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    <result column="books_id" jdbcType="INTEGER" property="booksId"/>
+    <result column="project_id" jdbcType="INTEGER" property="projectId"/>
+    <result column="operator" jdbcType="INTEGER" property="operator"/>
+    <result column="auit_status" jdbcType="INTEGER" property="auitStatus"/>
+    <result column="deal_time" jdbcType="VARCHAR" property="dealTime"/>
+    <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" extends="BaseResultMap" type="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `water_id`,`bill_detail_id`, `in_out_type_id`, `in_out_type`, `in_out_type_name`, `per_price`, `number`, `amount`, `product_id`, `product_spec_id`, `product_spec_name`, `create_time`
+  </sql>
+  <sql id="Blob_Column_List">
+    `remark`
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetailExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `tally_account_water_detail`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetailExample" resultMap="ResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    *,w.remark as remarks
+    from `tally_account_water_detail` left join tally_account_water w on w.id=water_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List" />
+    from `tally_account_water_detail`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tally_account_water_detail`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetailExample">
+    delete from `tally_account_water_detail`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_account_water_detail` (
+      `water_id`, 
+      `in_out_type_id`, 
+      `in_out_type`, 
+      `in_out_type_name`, 
+      `per_price`, 
+      `number`, 
+      `amount`, 
+      `product_id`, 
+      `product_spec_id`, 
+      `product_spec_name`, 
+      `remark`, 
+      `create_time`
+    )
+    values (
+      #{waterId,jdbcType=INTEGER}, 
+      #{inOutTypeId,jdbcType=INTEGER}, 
+      #{inOutType,jdbcType=INTEGER}, 
+      #{inOutTypeName,jdbcType=LONGVARCHAR}, 
+      #{perPrice,jdbcType=DECIMAL}, 
+      #{number,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, 
+      #{productId,jdbcType=INTEGER}, 
+      #{productSpecId,jdbcType=INTEGER}, 
+      #{productSpecName,jdbcType=LONGVARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_account_water_detail`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="waterId != null">
+      `water_id`,
+      </if>
+      <if test="inOutTypeId != null">
+      `in_out_type_id`,
+      </if>
+      <if test="inOutType != null">
+      `in_out_type`,
+      </if>
+      <if test="inOutTypeName != null">
+      `in_out_type_name`,
+      </if>
+      <if test="perPrice != null">
+      `per_price`,
+      </if>
+      <if test="number != null">
+      `number`,
+      </if>
+      <if test="amount != null">
+      `amount`,
+      </if>
+      <if test="productId != null">
+      `product_id`,
+      </if>
+      <if test="productSpecId != null">
+      `product_spec_id`,
+      </if>
+      <if test="productSpecName != null">
+      `product_spec_name`,
+      </if>
+      <if test="remark != null">
+      `remark`,
+      </if>
+      <if test="createTime != null">
+      `create_time`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="waterId != null">
+        #{waterId,jdbcType=INTEGER},
+      </if>
+      <if test="inOutTypeId != null">
+        #{inOutTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="inOutType != null">
+        #{inOutType,jdbcType=INTEGER},
+      </if>
+      <if test="inOutTypeName != null">
+        #{inOutTypeName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="perPrice != null">
+        #{perPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productSpecId != null">
+        #{productSpecId,jdbcType=INTEGER},
+      </if>
+      <if test="productSpecName != null">
+        #{productSpecName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+    <insert id="insertBatch">
+        insert into
+        tally_account_water_detail
+        (
+          water_id,
+          in_out_type_id,
+          bill_detail_id,
+          in_out_type,
+          in_out_type_name,
+          per_price,
+          number,
+          amount,
+          product_id,
+          product_spec_id,
+          product_spec_name,
+          remark
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+          (
+          #{item.waterId,jdbcType=INTEGER},
+          #{item.inOutTypeId,jdbcType=INTEGER},
+          #{item.billDetailId,jdbcType=INTEGER},
+          #{item.inOutType,jdbcType=INTEGER},
+          #{item.inOutTypeName,jdbcType=VARCHAR},
+          #{item.perPrice,jdbcType=DECIMAL},
+          #{item.number,jdbcType=INTEGER},
+          #{item.amount,jdbcType=DECIMAL},
+          #{item.productId,jdbcType=INTEGER},
+          #{item.productSpecId,jdbcType=INTEGER},
+          #{item.productSpecName,jdbcType=VARCHAR},
+          #{item.remark,jdbcType=VARCHAR}
+          )
+        </foreach>
+    </insert>
+    <select id="countByExample" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetailExample" resultType="java.lang.Integer">
+    select count(*) from `tally_account_water_detail`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+    <select id="findDetailByBillId"    resultMap="BaseResultMap">
+            SELECT
+                detail.*
+            FROM
+                tally_account_water_detail detail
+            WHERE
+                detail.water_id IN (
+                    SELECT
+                        w.id
+                    FROM
+                        tally_account_water w
+                    WHERE
+                        w.bill_id = #{id}
+                )
+    </select>
+    <select id="findReport" resultMap="ResultMap" parameterType="com.tally.api.inputDto.BillReportInputDto">
+            select
+               d.*,w.*,w.remark as remarks
+            from `tally_account_water_detail` d left join tally_account_water w on w.id = d.water_id
+            <where>
+              w.account_id = #{accountId}  and  w.user_id = #{userId}
+              <if test="'' != endDate">
+                and  (w.deal_time  between  #{startDate} and  #{endDate})
+              </if>
+            </where>
+            order by d.id desc
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update `tally_account_water_detail`
+    <set>
+      <if test="record.waterId != null">
+      `water_id` = #{record.waterId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.inOutTypeId != null">
+      `in_out_type_id` = #{record.inOutTypeId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.inOutType != null">
+      `in_out_type` = #{record.inOutType,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.inOutTypeName != null">
+      `in_out_type_name` = #{record.inOutTypeName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.perPrice != null">
+      `per_price` = #{record.perPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.number != null">
+      `number` = #{record.number,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.amount != null">
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.productId != null">
+      `product_id` = #{record.productId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.productSpecId != null">
+      `product_spec_id` = #{record.productSpecId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.productSpecName != null">
+      `product_spec_name` = #{record.productSpecName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.createTime != null">
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update `tally_account_water_detail`
+    <set>
+      `water_id` = #{record.waterId,jdbcType=INTEGER}, 
+      `in_out_type_id` = #{record.inOutTypeId,jdbcType=INTEGER}, 
+      `in_out_type` = #{record.inOutType,jdbcType=INTEGER}, 
+      `in_out_type_name` = #{record.inOutTypeName,jdbcType=LONGVARCHAR}, 
+      `per_price` = #{record.perPrice,jdbcType=DECIMAL}, 
+      `number` = #{record.number,jdbcType=INTEGER}, 
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      `product_id` = #{record.productId,jdbcType=INTEGER}, 
+      `product_spec_id` = #{record.productSpecId,jdbcType=INTEGER}, 
+      `product_spec_name` = #{record.productSpecName,jdbcType=LONGVARCHAR}, 
+      `remark` = #{record.remark,jdbcType=LONGVARCHAR}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_account_water_detail`
+    <set>
+      `water_id` = #{record.waterId,jdbcType=INTEGER}, 
+      `in_out_type_id` = #{record.inOutTypeId,jdbcType=INTEGER}, 
+      `in_out_type` = #{record.inOutType,jdbcType=INTEGER}, 
+      `in_out_type_name` = #{record.inOutTypeName,jdbcType=LONGVARCHAR}, 
+      `per_price` = #{record.perPrice,jdbcType=DECIMAL}, 
+      `number` = #{record.number,jdbcType=INTEGER}, 
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      `product_id` = #{record.productId,jdbcType=INTEGER}, 
+      `product_spec_id` = #{record.productSpecId,jdbcType=INTEGER}, 
+      `product_spec_name` = #{record.productSpecName,jdbcType=LONGVARCHAR}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    update `tally_account_water_detail`
+    <set>
+      <if test="waterId != null">
+      `water_id` = #{waterId,jdbcType=INTEGER}, 
+      </if>
+      <if test="inOutTypeId != null">
+      `in_out_type_id` = #{inOutTypeId,jdbcType=INTEGER}, 
+      </if>
+      <if test="inOutType != null">
+      `in_out_type` = #{inOutType,jdbcType=INTEGER}, 
+      </if>
+      <if test="inOutTypeName != null">
+      `in_out_type_name` = #{inOutTypeName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="perPrice != null">
+      `per_price` = #{perPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="number != null">
+      `number` = #{number,jdbcType=INTEGER}, 
+      </if>
+      <if test="amount != null">
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="productId != null">
+      `product_id` = #{productId,jdbcType=INTEGER}, 
+      </if>
+      <if test="productSpecId != null">
+      `product_spec_id` = #{productSpecId,jdbcType=INTEGER}, 
+      </if>
+      <if test="productSpecName != null">
+      `product_spec_name` = #{productSpecName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="createTime != null">
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    update `tally_account_water_detail`
+    <set>
+    `water_id` = #{waterId,jdbcType=INTEGER}, 
+    `in_out_type_id` = #{inOutTypeId,jdbcType=INTEGER}, 
+    `in_out_type` = #{inOutType,jdbcType=INTEGER}, 
+    `in_out_type_name` = #{inOutTypeName,jdbcType=LONGVARCHAR}, 
+    `per_price` = #{perPrice,jdbcType=DECIMAL}, 
+    `number` = #{number,jdbcType=INTEGER}, 
+    `amount` = #{amount,jdbcType=DECIMAL}, 
+    `product_id` = #{productId,jdbcType=INTEGER}, 
+    `product_spec_id` = #{productSpecId,jdbcType=INTEGER}, 
+    `product_spec_name` = #{productSpecName,jdbcType=LONGVARCHAR}, 
+    `remark` = #{remark,jdbcType=LONGVARCHAR}, 
+    `create_time` = #{createTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallyaccountwaterdetail.model.TallyAccountWaterDetail">
+    update `tally_account_water_detail`
+    <set>
+      `water_id` = #{waterId,jdbcType=INTEGER}, 
+      `in_out_type_id` = #{inOutTypeId,jdbcType=INTEGER}, 
+      `in_out_type` = #{inOutType,jdbcType=INTEGER}, 
+      `in_out_type_name` = #{inOutTypeName,jdbcType=LONGVARCHAR}, 
+      `per_price` = #{perPrice,jdbcType=DECIMAL}, 
+      `number` = #{number,jdbcType=INTEGER}, 
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      `product_id` = #{productId,jdbcType=INTEGER}, 
+      `product_spec_id` = #{productSpecId,jdbcType=INTEGER}, 
+      `product_spec_name` = #{productSpecName,jdbcType=LONGVARCHAR}, 
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

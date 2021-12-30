@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallyaccountwater.TallyAccountWaterMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallyaccountwater.model.TallyAccountWater">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="btype_user_id" jdbcType="INTEGER" property="btypeUserId"/>
+    <result column="btype_user_name" jdbcType="LONGVARCHAR" property="btypeUserName"/>
+    <result column="account_id" jdbcType="INTEGER" property="accountId"/>
+    <result column="bill_id" jdbcType="INTEGER" property="billId"/>
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="type_id" jdbcType="INTEGER" property="typeId"/>
+    <result column="type" jdbcType="INTEGER" property="type"/>
+    <result column="type_name" jdbcType="LONGVARCHAR" property="typeName"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    <result column="books_id" jdbcType="INTEGER" property="booksId"/>
+    <result column="project_id" jdbcType="INTEGER" property="projectId"/>
+    <result column="operator" jdbcType="INTEGER" property="operator"/>
+    <result column="auit_status" jdbcType="INTEGER" property="auitStatus"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="deal_time" jdbcType="VARCHAR" property="dealTime"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" extends="BaseResultMap" type="com.tally.dao.tallyaccountwater.model.TallyAccountWater">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `btype_user_id`, `btype_user_name`, `account_id`,`bill_id`, `amount`, `type_id`, `type`, `type_name`, `user_id`, `books_id`, `project_id`, `operator`, `auit_status`, `create_time`, `deal_time`
+  </sql>
+  <sql id="Blob_Column_List">
+    `remark`
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWaterExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `tally_account_water`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWaterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_account_water`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List" />
+    from `tally_account_water`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tally_account_water`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWaterExample">
+    delete from `tally_account_water`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWater">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_account_water` (
+      `btype_user_id`, 
+      `btype_user_name`, 
+      `account_id`, 
+      `amount`, 
+      `type_id`, 
+      `type`,
+      `type_name`,
+      `user_id`, 
+      `books_id`, 
+      `project_id`, 
+      `operator`, 
+      `auit_status`, 
+      `remark`, 
+      `create_time`, 
+      `deal_time`
+    )
+    values (
+      #{btypeUserId,jdbcType=INTEGER}, 
+      #{btypeUserName,jdbcType=LONGVARCHAR}, 
+      #{accountId,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, 
+      #{typeId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER},
+      #{typeName,jdbcType=LONGVARCHAR},
+      #{userId,jdbcType=INTEGER}, 
+      #{booksId,jdbcType=INTEGER}, 
+      #{projectId,jdbcType=INTEGER}, 
+      #{operator,jdbcType=INTEGER}, 
+      #{auitStatus,jdbcType=INTEGER}, 
+      #{remark,jdbcType=LONGVARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, 
+      #{dealTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWater" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_account_water`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="btypeUserId != null">
+      `btype_user_id`,
+      </if>
+      <if test="btypeUserName != null">
+      `btype_user_name`,
+      </if>
+      <if test="accountId != null">
+      `account_id`,
+      </if>
+      <if test="amount != null">
+      `amount`,
+      </if>
+      <if test="typeId != null">
+      `type_id`,
+      </if>
+      <if test="type != null">
+      `type`,
+      </if>
+      <if test="typeName != null">
+      `type_name`,
+      </if>
+      <if test="userId != null">
+      `user_id`,
+      </if>
+      <if test="booksId != null">
+      `books_id`,
+      </if>
+      <if test="projectId != null">
+      `project_id`,
+      </if>
+      <if test="operator != null">
+      `operator`,
+      </if>
+      <if test="auitStatus != null">
+      `auit_status`,
+      </if>
+      <if test="remark != null">
+      `remark`,
+      </if>
+      <if test="createTime != null">
+      `create_time`,
+      </if>
+      <if test="dealTime != null">
+      `deal_time`,
+      </if>
+      <if test="billId != null">
+      `bill_id`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="btypeUserId != null">
+        #{btypeUserId,jdbcType=INTEGER},
+      </if>
+      <if test="btypeUserName != null">
+        #{btypeUserName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="booksId != null">
+        #{booksId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=INTEGER},
+      </if>
+      <if test="auitStatus != null">
+        #{auitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealTime != null">
+        #{dealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billId != null">
+        #{billId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWaterExample" resultType="java.lang.Integer">
+    select count(*) from `tally_account_water`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+    <select id="findCollect" resultMap="BaseResultMap">
+    SELECT w.btype_user_id,w.btype_user_name,w.account_id,w.user_id,SUM(w.amount) as amount from tally_account_water w
+    LEFT JOIN tally_account ta on ta.id = w.account_id
+    LEFT JOIN tally_account_type ty on ty.id = ta.type_id
+    where w.user_id = #{userId}
+     and ty.type_code = #{accountTypeCode}
+     GROUP BY w.btype_user_id
+    </select>
+  <select id="waterCollectList" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWater" resultMap="BaseResultMap">
+        SELECT
+            SUM(taw.amount) AS amount,
+            taw.btype_user_name,
+            taw.btype_user_id
+        FROM
+            tally_account_water taw
+        WHERE
+            taw.user_id = #{userId}
+        <if test="null!=accountId">
+          AND taw.account_id = #{accountId}
+        </if>
+          AND amount>0
+        GROUP BY
+            taw.btype_user_id
+  </select>
+    <select id="findWater" resultType="com.tally.dao.tallyaccountwater.model.TallyAccountWater" resultMap="BaseResultMap">
+      select * from  tally_account_water where 1=1
+        <if test="null!=billId">
+           and bill_id = #{billId}
+        </if>
+        <if test="null!=userId">
+           and user_id = #{userId}
+        </if>
+        <if test="null!=type">
+           and type =#{type}
+        </if>
+        <if test="null!=typeName and ''!=typeName">
+            and type_name = #{typeName}
+        </if>
+    </select>
+    <select id="findReport" resultMap="BaseResultMap">
+        select  w.* from   tally_account_water w
+        <where>
+          w.account_id = #{accountId}  and  w.user_id = #{userId}
+          <if test="'' != endDate">
+            and  (w.deal_time  between  #{startDate} and  #{endDate})
+          </if>
+            and w.amount > 0
+        </where>
+        order by w.id desc
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update `tally_account_water`
+    <set>
+      <if test="record.btypeUserId != null">
+      `btype_user_id` = #{record.btypeUserId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.btypeUserName != null">
+      `btype_user_name` = #{record.btypeUserName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.accountId != null">
+      `account_id` = #{record.accountId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.amount != null">
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.typeId != null">
+      `type_id` = #{record.typeId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.type != null">
+      `type` = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeName != null">
+      `type_name` = #{record.typeName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.userId != null">
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.booksId != null">
+      `books_id` = #{record.booksId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.projectId != null">
+      `project_id` = #{record.projectId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.operator != null">
+      `operator` = #{record.operator,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.auitStatus != null">
+      `auit_status` = #{record.auitStatus,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.createTime != null">
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="record.dealTime != null">
+      `deal_time` = #{record.dealTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update `tally_account_water`
+    <set>
+      `btype_user_id` = #{record.btypeUserId,jdbcType=INTEGER}, 
+      `btype_user_name` = #{record.btypeUserName,jdbcType=LONGVARCHAR}, 
+      `account_id` = #{record.accountId,jdbcType=INTEGER}, 
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      `type_id` = #{record.typeId,jdbcType=INTEGER}, 
+      `type` = #{record.type,jdbcType=INTEGER},
+      `type_name` = #{record.typeName,jdbcType=LONGVARCHAR},
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      `books_id` = #{record.booksId,jdbcType=INTEGER}, 
+      `project_id` = #{record.projectId,jdbcType=INTEGER}, 
+      `operator` = #{record.operator,jdbcType=INTEGER}, 
+      `auit_status` = #{record.auitStatus,jdbcType=INTEGER}, 
+      `remark` = #{record.remark,jdbcType=LONGVARCHAR}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}, 
+      `deal_time` = #{record.dealTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_account_water`
+    <set>
+      `btype_user_id` = #{record.btypeUserId,jdbcType=INTEGER}, 
+      `btype_user_name` = #{record.btypeUserName,jdbcType=LONGVARCHAR}, 
+      `account_id` = #{record.accountId,jdbcType=INTEGER}, 
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      `type_id` = #{record.typeId,jdbcType=INTEGER}, 
+      `type` = #{record.type,jdbcType=INTEGER},
+      `type_name` = #{record.typeName,jdbcType=LONGVARCHAR},
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      `books_id` = #{record.booksId,jdbcType=INTEGER}, 
+      `project_id` = #{record.projectId,jdbcType=INTEGER}, 
+      `operator` = #{record.operator,jdbcType=INTEGER}, 
+      `auit_status` = #{record.auitStatus,jdbcType=INTEGER}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}, 
+      `deal_time` = #{record.dealTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWater">
+    update `tally_account_water`
+    <set>
+      <if test="btypeUserId != null">
+      `btype_user_id` = #{btypeUserId,jdbcType=INTEGER}, 
+      </if>
+      <if test="btypeUserName != null">
+      `btype_user_name` = #{btypeUserName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="accountId != null">
+      `account_id` = #{accountId,jdbcType=INTEGER}, 
+      </if>
+      <if test="amount != null">
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="typeId != null">
+      `type_id` = #{typeId,jdbcType=INTEGER}, 
+      </if>
+      <if test="type != null">
+      `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+      `type_name` = #{typeName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="userId != null">
+      `user_id` = #{userId,jdbcType=INTEGER}, 
+      </if>
+      <if test="booksId != null">
+      `books_id` = #{booksId,jdbcType=INTEGER}, 
+      </if>
+      <if test="projectId != null">
+      `project_id` = #{projectId,jdbcType=INTEGER}, 
+      </if>
+      <if test="operator != null">
+      `operator` = #{operator,jdbcType=INTEGER}, 
+      </if>
+      <if test="auitStatus != null">
+      `auit_status` = #{auitStatus,jdbcType=INTEGER}, 
+      </if>
+      <if test="createTime != null">
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="dealTime != null">
+      `deal_time` = #{dealTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWater">
+    update `tally_account_water`
+    <set>
+    `btype_user_id` = #{btypeUserId,jdbcType=INTEGER}, 
+    `btype_user_name` = #{btypeUserName,jdbcType=LONGVARCHAR}, 
+    `account_id` = #{accountId,jdbcType=INTEGER}, 
+    `amount` = #{amount,jdbcType=DECIMAL}, 
+    `type_id` = #{typeId,jdbcType=INTEGER}, 
+    `type` = #{type,jdbcType=INTEGER},
+    `type_name` = #{typeName,jdbcType=LONGVARCHAR},
+    `user_id` = #{userId,jdbcType=INTEGER}, 
+    `books_id` = #{booksId,jdbcType=INTEGER}, 
+    `project_id` = #{projectId,jdbcType=INTEGER}, 
+    `operator` = #{operator,jdbcType=INTEGER}, 
+    `auit_status` = #{auitStatus,jdbcType=INTEGER}, 
+    `remark` = #{remark,jdbcType=LONGVARCHAR}, 
+    `create_time` = #{createTime,jdbcType=TIMESTAMP}, 
+    `deal_time` = #{dealTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallyaccountwater.model.TallyAccountWater">
+    update `tally_account_water`
+    <set>
+      `btype_user_id` = #{btypeUserId,jdbcType=INTEGER}, 
+      `btype_user_name` = #{btypeUserName,jdbcType=LONGVARCHAR}, 
+      `account_id` = #{accountId,jdbcType=INTEGER}, 
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      `type_id` = #{typeId,jdbcType=INTEGER}, 
+      `type` = #{type,jdbcType=INTEGER},
+      `type_name` = #{typeName,jdbcType=LONGVARCHAR},
+      `user_id` = #{userId,jdbcType=INTEGER}, 
+      `books_id` = #{booksId,jdbcType=INTEGER}, 
+      `project_id` = #{projectId,jdbcType=INTEGER}, 
+      `operator` = #{operator,jdbcType=INTEGER}, 
+      `auit_status` = #{auitStatus,jdbcType=INTEGER}, 
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}, 
+      `deal_time` = #{dealTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

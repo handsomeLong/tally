@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallymemberfeesorder.TallyMemberfeesOrderMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrder">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="order_no" jdbcType="LONGVARCHAR" property="orderNo"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    <result column="combo_id" jdbcType="INTEGER" property="comboId"/>
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+    <result column="period" jdbcType="INTEGER" property="period"/>
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+    <result column="out_trade_no" jdbcType="LONGVARCHAR" property="outTradeNo"/>
+    <result column="pay_way" jdbcType="INTEGER" property="payWay"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `order_no`, `user_id`, `combo_id`, `amount`, `start_time`, `end_time`, `period`, `remark`, `status`, `out_trade_no`, `pay_way`, `create_time`
+  </sql>
+  <select id="selectByExample" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_memberfees_order`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `tally_memberfees_order`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tally_memberfees_order`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrderExample">
+    delete from `tally_memberfees_order`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_memberfees_order` (
+      `order_no`, 
+      `user_id`, 
+      `combo_id`, 
+      `amount`, 
+      `start_time`, 
+      `end_time`, 
+      `period`, 
+      `remark`, 
+      `status`, 
+      `out_trade_no`, 
+      `pay_way`, 
+      `create_time`
+    )
+    values (
+      #{orderNo,jdbcType=LONGVARCHAR}, 
+      #{userId,jdbcType=INTEGER}, 
+      #{comboId,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, 
+      #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, 
+      #{period,jdbcType=INTEGER}, 
+      #{remark,jdbcType=LONGVARCHAR}, 
+      #{status,jdbcType=INTEGER}, 
+      #{outTradeNo,jdbcType=LONGVARCHAR}, 
+      #{payWay,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_memberfees_order`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+      `order_no`,
+      </if>
+      <if test="userId != null">
+      `user_id`,
+      </if>
+      <if test="comboId != null">
+      `combo_id`,
+      </if>
+      <if test="amount != null">
+      `amount`,
+      </if>
+      <if test="startTime != null">
+      `start_time`,
+      </if>
+      <if test="endTime != null">
+      `end_time`,
+      </if>
+      <if test="period != null">
+      `period`,
+      </if>
+      <if test="remark != null">
+      `remark`,
+      </if>
+      <if test="status != null">
+      `status`,
+      </if>
+      <if test="outTradeNo != null">
+      `out_trade_no`,
+      </if>
+      <if test="payWay != null">
+      `pay_way`,
+      </if>
+      <if test="createTime != null">
+      `create_time`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="comboId != null">
+        #{comboId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrderExample" resultType="java.lang.Integer">
+    select count(*) from `tally_memberfees_order`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update `tally_memberfees_order`
+    <set>
+      <if test="record.orderNo != null">
+      `order_no` = #{record.orderNo,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.userId != null">
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.comboId != null">
+      `combo_id` = #{record.comboId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.amount != null">
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.startTime != null">
+      `start_time` = #{record.startTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="record.endTime != null">
+      `end_time` = #{record.endTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="record.period != null">
+      `period` = #{record.period,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.remark != null">
+      `remark` = #{record.remark,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.status != null">
+      `status` = #{record.status,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.outTradeNo != null">
+      `out_trade_no` = #{record.outTradeNo,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.payWay != null">
+      `pay_way` = #{record.payWay,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.createTime != null">
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_memberfees_order`
+    <set>
+      `order_no` = #{record.orderNo,jdbcType=LONGVARCHAR}, 
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      `combo_id` = #{record.comboId,jdbcType=INTEGER}, 
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      `start_time` = #{record.startTime,jdbcType=TIMESTAMP}, 
+      `end_time` = #{record.endTime,jdbcType=TIMESTAMP}, 
+      `period` = #{record.period,jdbcType=INTEGER}, 
+      `remark` = #{record.remark,jdbcType=LONGVARCHAR}, 
+      `status` = #{record.status,jdbcType=INTEGER}, 
+      `out_trade_no` = #{record.outTradeNo,jdbcType=LONGVARCHAR}, 
+      `pay_way` = #{record.payWay,jdbcType=INTEGER}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrder">
+    update `tally_memberfees_order`
+    <set>
+      <if test="orderNo != null">
+      `order_no` = #{orderNo,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="userId != null">
+      `user_id` = #{userId,jdbcType=INTEGER}, 
+      </if>
+      <if test="comboId != null">
+      `combo_id` = #{comboId,jdbcType=INTEGER}, 
+      </if>
+      <if test="amount != null">
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="startTime != null">
+      `start_time` = #{startTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="endTime != null">
+      `end_time` = #{endTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="period != null">
+      `period` = #{period,jdbcType=INTEGER}, 
+      </if>
+      <if test="remark != null">
+      `remark` = #{remark,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="status != null">
+      `status` = #{status,jdbcType=INTEGER}, 
+      </if>
+      <if test="outTradeNo != null">
+      `out_trade_no` = #{outTradeNo,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="payWay != null">
+      `pay_way` = #{payWay,jdbcType=INTEGER}, 
+      </if>
+      <if test="createTime != null">
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallymemberfeesorder.model.TallyMemberfeesOrder">
+    update `tally_memberfees_order`
+    <set>
+      `order_no` = #{orderNo,jdbcType=LONGVARCHAR}, 
+      `user_id` = #{userId,jdbcType=INTEGER}, 
+      `combo_id` = #{comboId,jdbcType=INTEGER}, 
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      `start_time` = #{startTime,jdbcType=TIMESTAMP}, 
+      `end_time` = #{endTime,jdbcType=TIMESTAMP}, 
+      `period` = #{period,jdbcType=INTEGER}, 
+      `remark` = #{remark,jdbcType=LONGVARCHAR}, 
+      `status` = #{status,jdbcType=INTEGER}, 
+      `out_trade_no` = #{outTradeNo,jdbcType=LONGVARCHAR}, 
+      `pay_way` = #{payWay,jdbcType=INTEGER}, 
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

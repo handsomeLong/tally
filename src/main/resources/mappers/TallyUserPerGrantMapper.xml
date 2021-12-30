@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallyuserpergrant.TallyUserPerGrantMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrant">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="use_id" jdbcType="INTEGER" property="useId"/>
+    <result column="grant_user_id" jdbcType="INTEGER" property="grantUserId"/>
+    <result column="grant_user_mobile" jdbcType="VARCHAR" property="grantUserMobile"/>
+    <result column="permisson_id" jdbcType="INTEGER" property="permissonId"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `use_id`, `grant_user_id`, `grant_user_mobile`, `permisson_id`, `status`, `create_time`
+  </sql>
+  <select id="selectByExample" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrantExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_user_per_grant`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `tally_user_per_grant`
+    where `id` = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from `tally_user_per_grant`
+    where `id` = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrantExample">
+    delete from `tally_user_per_grant`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrant">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_user_per_grant` (
+      `use_id`, 
+      `grant_user_id`, 
+      `grant_user_mobile`, 
+      `permisson_id`, 
+      `status`, 
+      `create_time`
+    )
+    values (
+      #{useId,jdbcType=INTEGER}, 
+      #{grantUserId,jdbcType=INTEGER}, 
+      #{grantUserMobile,jdbcType=VARCHAR}, 
+      #{permissonId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrant">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_user_per_grant`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="useId != null">
+      `use_id`,
+      </if>
+      <if test="grantUserId != null">
+      `grant_user_id`,
+      </if>
+      <if test="grantUserMobile != null">
+      `grant_user_mobile`,
+      </if>
+      <if test="permissonId != null">
+      `permisson_id`,
+      </if>
+      <if test="status != null">
+      `status`,
+      </if>
+      <if test="createTime != null">
+      `create_time`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="useId != null">
+      #{useId,jdbcType=INTEGER},
+      </if>
+      <if test="grantUserId != null">
+      #{grantUserId,jdbcType=INTEGER},
+      </if>
+      <if test="grantUserMobile != null">
+      #{grantUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="permissonId != null">
+      #{permissonId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+      #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+      #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrantExample" resultType="java.lang.Integer">
+    select count(*) from `tally_user_per_grant`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+    <select id="findGrantList" resultMap="BaseResultMap">
+        SELECT
+            g.*
+        FROM
+            tally_user_per_grant g
+        LEFT JOIN tally_user_permission p on g.permisson_id=p.id
+        where g.grant_user_id = #{userId} and p.alias = #{alias} and  g.status=101
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update `tally_user_per_grant`
+    <set>
+      <if test="record.useId != null">
+      `use_id` = #{record.useId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.grantUserId != null">
+      `grant_user_id` = #{record.grantUserId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.grantUserMobile != null">
+      `grant_user_mobile` = #{record.grantUserMobile,jdbcType=VARCHAR}, 
+      </if>
+      <if test="record.permissonId != null">
+      `permisson_id` = #{record.permissonId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.status != null">
+      `status` = #{record.status,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.createTime != null">
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_user_per_grant`
+    <set>
+      `use_id` = #{record.useId,jdbcType=INTEGER}, 
+      `grant_user_id` = #{record.grantUserId,jdbcType=INTEGER}, 
+      `grant_user_mobile` = #{record.grantUserMobile,jdbcType=VARCHAR}, 
+      `permisson_id` = #{record.permissonId,jdbcType=INTEGER}, 
+      `status` = #{record.status,jdbcType=INTEGER}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrant">
+    update `tally_user_per_grant`
+    <set>
+      <if test="useId != null">
+      `use_id` = #{useId,jdbcType=INTEGER}, 
+      </if>
+      <if test="grantUserId != null">
+      `grant_user_id` = #{grantUserId,jdbcType=INTEGER}, 
+      </if>
+      <if test="grantUserMobile != null">
+      `grant_user_mobile` = #{grantUserMobile,jdbcType=VARCHAR}, 
+      </if>
+      <if test="permissonId != null">
+      `permisson_id` = #{permissonId,jdbcType=INTEGER}, 
+      </if>
+      <if test="status != null">
+      `status` = #{status,jdbcType=INTEGER}, 
+      </if>
+      <if test="createTime != null">
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallyuserpergrant.model.TallyUserPerGrant">
+    update `tally_user_per_grant`
+    <set>
+      `use_id` = #{useId,jdbcType=INTEGER}, 
+      `grant_user_id` = #{grantUserId,jdbcType=INTEGER}, 
+      `grant_user_mobile` = #{grantUserMobile,jdbcType=VARCHAR}, 
+      `permisson_id` = #{permissonId,jdbcType=INTEGER}, 
+      `status` = #{status,jdbcType=INTEGER}, 
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

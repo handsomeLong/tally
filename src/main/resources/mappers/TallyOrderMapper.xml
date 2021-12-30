@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallyorder.TallyOrderMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallyorder.model.TallyOrder">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="order_no" jdbcType="LONGVARCHAR" property="orderNo"/>
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice"/>
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="discout" jdbcType="DECIMAL" property="discout"/>
+    <result column="success_amount" jdbcType="DECIMAL" property="successAmount"/>
+    <result column="pay_way" jdbcType="INTEGER" property="payWay"/>
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    <result column="buyer_id" jdbcType="INTEGER" property="buyerId"/>
+    <result column="buyer_name" jdbcType="LONGVARCHAR" property="buyerName"/>
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+    <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+  </resultMap>
+  <resultMap id="BaseResultMapDto" type="com.tally.api.outputDto.TallyOrderOutputDto">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="order_no" jdbcType="LONGVARCHAR" property="orderNo"/>
+      <result column="total_price" jdbcType="DECIMAL" property="totalPrice"/>
+      <result column="amount" jdbcType="DECIMAL" property="amount"/>
+      <result column="discout" jdbcType="DECIMAL" property="discout"/>
+      <result column="success_amount" jdbcType="DECIMAL" property="successAmount"/>
+      <result column="pay_way" jdbcType="INTEGER" property="payWay"/>
+      <result column="user_id" jdbcType="INTEGER" property="userId"/>
+      <result column="buyer_id" jdbcType="INTEGER" property="buyerId"/>
+      <result column="buyer_name" jdbcType="LONGVARCHAR" property="buyerName"/>
+      <result column="remark" jdbcType="LONGVARCHAR" property="remark"/>
+      <result column="status" jdbcType="INTEGER" property="status"/>
+      <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+      <collection property="orderProductList"  column="id" ofType="com.tally.api.outputDto.TallyOrderProductOutputDto"
+                  select="com.tally.dao.tallyorderproduct.TallyOrderProductMapper.selectByOrderId">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+            <result column="product_name" jdbcType="INTEGER" property="productName"/>
+            <result column="product_id" jdbcType="INTEGER" property="productId"/>
+            <result column="product_spec_id" jdbcType="INTEGER" property="productSpecId"/>
+            <result column="spec_price" jdbcType="DECIMAL" property="specPrice"/>
+            <result column="spec_num" jdbcType="INTEGER" property="specNum"/>
+            <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+            <result column="product_spec_name" jdbcType="VARCHAR" property="productSpecName"/>
+      </collection>
+  </resultMap>
+  <resultMap id="reportResultMap" type="com.tally.api.outputDto.OrderReportOutputDto">
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+    <result column="product_num" jdbcType="INTEGER" property="productNum"/>
+    <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    <result column="seller_name" jdbcType="VARCHAR" property="sellerName"/>
+    <result column="sort" jdbcType="INTEGER" property="sort"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `order_no`, `total_price`, `amount`, `discout`, `success_amount`, `pay_way`, `user_id`, `buyer_id`, `buyer_name`, `remark`, `status`, `create_time`
+  </sql>
+  <select id="selectByExample" parameterType="com.tally.dao.tallyorder.model.TallyOrderExample" resultMap="BaseResultMapDto">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_order`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `tally_order`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tally_order`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallyorder.model.TallyOrderExample">
+    delete from `tally_order`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallyorder.model.TallyOrder">
+    insert into `tally_order` (
+      `id`,
+      `order_no`, 
+      `total_price`, 
+      `amount`, 
+      `discout`, 
+      `success_amount`, 
+      `pay_way`, 
+      `user_id`, 
+      `buyer_id`, 
+      `buyer_name`,
+      `remark`,
+      `status`, 
+      `create_time`
+    )
+    values (
+      #{id,jdbcType=INTEGER},
+      #{orderNo,jdbcType=LONGVARCHAR}, 
+      #{totalPrice,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, 
+      #{discout,jdbcType=DECIMAL}, 
+      #{successAmount,jdbcType=DECIMAL}, 
+      #{payWay,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, 
+      #{buyerId,jdbcType=INTEGER}, 
+      #{buyerName,jdbcType=LONGVARCHAR},
+      #{remark,jdbcType=LONGVARCHAR},
+      #{status,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallyorder.model.TallyOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into `tally_order`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+      `order_no`,
+      </if>
+      <if test="totalPrice != null">
+      `total_price`,
+      </if>
+      <if test="amount != null">
+      `amount`,
+      </if>
+      <if test="discout != null">
+      `discout`,
+      </if>
+      <if test="successAmount != null">
+      `success_amount`,
+      </if>
+      <if test="payWay != null">
+      `pay_way`,
+      </if>
+      <if test="userId != null">
+      `user_id`,
+      </if>
+      <if test="buyerId != null">
+      `buyer_id`,
+      </if>
+      <if test="buyerName != null">
+      `buyer_name`,
+      </if>
+      <if test="remark != null">
+      `remark`,
+      </if>
+      <if test="settleAccountId != null">
+      `settle_account_id`,
+      </if>
+      <if test="orderType != null">
+      `order_type`,
+      </if>
+      <if test="status != null">
+      `status`,
+      </if>
+      <if test="createTime != null">
+      `create_time`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="discout != null">
+        #{discout,jdbcType=DECIMAL},
+      </if>
+      <if test="successAmount != null">
+        #{successAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payWay != null">
+        #{payWay,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerName != null">
+        #{buyerName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="settleAccountId != null">
+        #{settleAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tally.dao.tallyorder.model.TallyOrderExample" resultType="java.lang.Integer">
+    select count(*) from `tally_order`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <select id="selectByExampleWithNoSpec" parameterType="com.tally.dao.tallyorder.model.TallyOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_order`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+    <select id="findCollect" resultMap="BaseResultMap">
+        select o.order_type,o.buyer_id,o.buyer_name,sum(o.amount) as amount from tally_order o where o.user_id = #{userId} and o.order_type = #{orderType}
+        GROUP BY o.buyer_id
+    </select>
+  <select id="salesAndPurchaseXlReport" resultMap="reportResultMap">
+        select sum(top.spec_num) as product_num,tps.spec_name as product_name,top.product_id from tally_order_product top
+        LEFT JOIN tally_order tor on tor.id = top.order_id
+        LEFT JOIN tally_product_spec tps on tps.id = top.product_spec_id
+        where tor.user_id = #{userId} and tor.order_type = #{type}
+        GROUP BY top.product_id
+        order by product_num desc
+  </select>
+  <select id="salesAndPurchaseXSEReport" resultMap="reportResultMap">
+        select sum(top.spec_num*top.spec_price) as amount,tps.spec_name as product_name,top.product_id from tally_order_product top
+        LEFT JOIN tally_order tor on tor.id = top.order_id
+        LEFT JOIN tally_product_spec tps on tps.id = top.product_spec_id
+        where tor.user_id = #{userId} and tor.order_type = #{type}
+        GROUP BY top.product_id
+        order by amount desc
+  </select>
+  <select id="salesAndPurchaseLRReport" resultMap="reportResultMap">
+        select sum(top.spec_num*(tps.spec_price-tps.spec_cost_price)) as amount ,tps.spec_name as product_name,top.product_id from tally_order_product top
+        LEFT JOIN tally_order tor on tor.id = top.order_id
+        LEFT JOIN tally_product_spec tps on tps.id = top.product_spec_id
+        where tor.user_id = #{userId} and tor.order_type = #{type}
+        GROUP BY top.product_id
+        order by amount desc
+  </select>
+  <select id="cusContributeXLReport" resultType="com.tally.api.outputDto.OrderReportOutputDto">
+        select sum(top.spec_num) as productNum,tps.spec_name as productName,tor.buyer_name as buyerName,tor.buyer_id as buyerId from tally_order_product top
+        LEFT JOIN tally_order tor on tor.id = top.order_id
+        LEFT JOIN tally_product_spec tps on tps.id = top.product_spec_id
+        where tor.user_id = #{userId} and tor.order_type = 100
+        GROUP BY tor.buyer_id
+        order by productNum desc
+  </select>
+  <select id="cusContributeXSEReport" resultType="com.tally.api.outputDto.OrderReportOutputDto">
+      select sum(top.spec_num*top.spec_price) as amount,tps.spec_name as productName,tor.buyer_name as buyerName,tor.buyer_id as buyerId from tally_order_product top
+      LEFT JOIN tally_order tor on tor.id = top.order_id
+      LEFT JOIN tally_product_spec tps on tps.id = top.product_spec_id
+      where tor.user_id = #{userId} and tor.order_type = 100
+      GROUP BY tor.buyer_id
+      order by amount desc
+  </select>
+  <select id="cusContributeLRReport" resultType="com.tally.api.outputDto.OrderReportOutputDto">
+      select sum(top.spec_num*(tps.spec_price-tps.spec_cost_price)) as amount,tps.spec_name as productName,tor.buyer_name,tor.buyer_id as buyerId  as buyerName from tally_order_product top
+      LEFT JOIN tally_order tor on tor.id = top.order_id
+      LEFT JOIN tally_product_spec tps on tps.id = top.product_spec_id
+      where tor.user_id = #{userId} and tor.order_type = 100
+      GROUP BY tor.buyer_id
+      order by amount desc
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map">
+    update `tally_order`
+    <set>
+      <if test="record.orderNo != null">
+      `order_no` = #{record.orderNo,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.totalPrice != null">
+      `total_price` = #{record.totalPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.amount != null">
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.discout != null">
+      `discout` = #{record.discout,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.successAmount != null">
+      `success_amount` = #{record.successAmount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.payWay != null">
+      `pay_way` = #{record.payWay,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.userId != null">
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.buyerId != null">
+      `buyer_id` = #{record.buyerId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.buyerName != null">
+      `buyer_name` = #{record.buyerName,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+      `remark` = #{record.remark,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.status != null">
+      `status` = #{record.status,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.createTime != null">
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_order`
+    <set>
+      `order_no` = #{record.orderNo,jdbcType=LONGVARCHAR}, 
+      `total_price` = #{record.totalPrice,jdbcType=DECIMAL}, 
+      `amount` = #{record.amount,jdbcType=DECIMAL}, 
+      `discout` = #{record.discout,jdbcType=DECIMAL}, 
+      `success_amount` = #{record.successAmount,jdbcType=DECIMAL}, 
+      `pay_way` = #{record.payWay,jdbcType=INTEGER}, 
+      `user_id` = #{record.userId,jdbcType=INTEGER}, 
+      `buyer_id` = #{record.buyerId,jdbcType=INTEGER}, 
+      `buyer_name` = #{record.buyerName,jdbcType=LONGVARCHAR},
+      `remark` = #{record.remark,jdbcType=LONGVARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER}, 
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallyorder.model.TallyOrder">
+    update `tally_order`
+    <set>
+      <if test="orderNo != null">
+      `order_no` = #{orderNo,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="totalPrice != null">
+      `total_price` = #{totalPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="amount != null">
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="discout != null">
+      `discout` = #{discout,jdbcType=DECIMAL}, 
+      </if>
+      <if test="successAmount != null">
+      `success_amount` = #{successAmount,jdbcType=DECIMAL}, 
+      </if>
+      <if test="payWay != null">
+      `pay_way` = #{payWay,jdbcType=INTEGER}, 
+      </if>
+      <if test="userId != null">
+      `user_id` = #{userId,jdbcType=INTEGER}, 
+      </if>
+      <if test="buyerId != null">
+      `buyer_id` = #{buyerId,jdbcType=INTEGER}, 
+      </if>
+      <if test="buyerName != null">
+      `buyer_name` = #{buyerName,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+      `remark` = #{remark,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="status != null">
+      `status` = #{status,jdbcType=INTEGER}, 
+      </if>
+      <if test="createTime != null">
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallyorder.model.TallyOrder">
+    update `tally_order`
+    <set>
+      `order_no` = #{orderNo,jdbcType=LONGVARCHAR}, 
+      `total_price` = #{totalPrice,jdbcType=DECIMAL}, 
+      `amount` = #{amount,jdbcType=DECIMAL}, 
+      `discout` = #{discout,jdbcType=DECIMAL}, 
+      `success_amount` = #{successAmount,jdbcType=DECIMAL}, 
+      `pay_way` = #{payWay,jdbcType=INTEGER}, 
+      `user_id` = #{userId,jdbcType=INTEGER}, 
+      `buyer_id` = #{buyerId,jdbcType=INTEGER}, 
+      `buyer_name` = #{buyerId,jdbcType=LONGVARCHAR},
+      `remark` = #{remark,jdbcType=LONGVARCHAR},
+      `status` = #{status,jdbcType=INTEGER}, 
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

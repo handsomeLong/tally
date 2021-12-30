@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallyuser.TallyUserMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallyuser.model.TallyUser">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="name" jdbcType="LONGVARCHAR" property="name"/>
+    <result column="email" jdbcType="LONGVARCHAR" property="email"/>
+    <result column="nick_name" jdbcType="LONGVARCHAR" property="nickName"/>
+    <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+    <result column="login_time" jdbcType="VARCHAR" property="loginTime"/>
+    <result column="head_image" jdbcType="LONGVARCHAR" property="headImage"/>
+    <result column="mobile" jdbcType="LONGVARCHAR" property="mobile"/>
+    <result column="user_type" jdbcType="SMALLINT" property="userType"/>
+    <result column="user_status" jdbcType="SMALLINT" property="userStatus"/>
+    <result column="device_token" jdbcType="LONGVARCHAR" property="deviceToken"/>
+    <result column="grade_id" jdbcType="INTEGER" property="gradeId"/>
+    <result column="address" jdbcType="LONGVARCHAR" property="address"/>
+    <result column="company_name" jdbcType="LONGVARCHAR" property="companyName"/>
+    <result column="contact" jdbcType="LONGVARCHAR" property="contact"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `name`,`email`, `nick_name`, `create_time`, `login_time`, `head_image`, `mobile`, `user_type`, `user_status`, `device_token`, `grade_id`, `address`, `company_name`, `contact`
+  </sql>
+  <select id="selectByExample" parameterType="com.tally.dao.tallyuser.model.TallyUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_user`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `tally_user`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tally_user`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallyuser.model.TallyUserExample">
+    delete from `tally_user`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallyuser.model.TallyUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_user` (
+      `name`, 
+      `email`,
+      `nick_name`,
+      `create_time`, 
+      `login_time`, 
+      `head_image`, 
+      `mobile`, 
+      `user_type`, 
+      `user_status`, 
+      `device_token`, 
+      `grade_id`
+      `address`,
+      `company_name`,
+      `contact`
+    )
+    values (
+      #{name,jdbcType=LONGVARCHAR}, 
+      #{email,jdbcType=LONGVARCHAR},
+      #{nickName,jdbcType=LONGVARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, 
+      #{loginTime,jdbcType=TIMESTAMP}, 
+      #{headImage,jdbcType=LONGVARCHAR}, 
+      #{mobile,jdbcType=LONGVARCHAR}, 
+      #{userType,jdbcType=SMALLINT}, 
+      #{userStatus,jdbcType=SMALLINT}, 
+      #{deviceToken,jdbcType=LONGVARCHAR}, 
+      #{gradeId,jdbcType=INTEGER}
+      #{address,jdbcType=LONGVARCHAR},
+      #{companyName,jdbcType=LONGVARCHAR},
+      #{contact,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallyuser.model.TallyUser">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_user`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+      `name`,
+      </if>
+      <if test="email != null">
+      `email`,
+      </if>
+      <if test="nickName != null">
+      `nick_name`,
+      </if>
+      <if test="createTime != null">
+      `create_time`,
+      </if>
+      <if test="loginTime != null">
+      `login_time`,
+      </if>
+      <if test="headImage != null">
+      `head_image`,
+      </if>
+      <if test="mobile != null">
+      `mobile`,
+      </if>
+      <if test="userType != null">
+      `user_type`,
+      </if>
+      <if test="userStatus != null">
+      `user_status`,
+      </if>
+      <if test="deviceToken != null">
+      `device_token`,
+      </if>
+      <if test="gradeId != null">
+      `grade_id`,
+      </if>
+      <if test="address != null">
+      `address`,
+      </if>
+      <if test="contact != null">
+      `contact`,
+      </if>
+      <if test="companyName != null">
+      `company_name`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headImage != null">
+        #{headImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=SMALLINT},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceToken != null">
+        #{deviceToken,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="gradeId != null">
+        #{gradeId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tally.dao.tallyuser.model.TallyUserExample" resultType="java.lang.Integer">
+    select count(*) from `tally_user`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+    <select id="findByIds" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from `tally_user`
+      where `id`  in
+      <foreach collection="userIdList" open="(" close=")" separator="," item="id">
+          #{id}
+      </foreach>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update `tally_user`
+    <set>
+      <if test="record.name != null">
+      `name` = #{record.name,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.email != null">
+      `email` = #{record.email,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.nickName != null">
+      `nick_name` = #{record.nickName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.createTime != null">
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="record.loginTime != null">
+      `login_time` = #{record.loginTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="record.headImage != null">
+      `head_image` = #{record.headImage,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.mobile != null">
+      `mobile` = #{record.mobile,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.userType != null">
+      `user_type` = #{record.userType,jdbcType=SMALLINT}, 
+      </if>
+      <if test="record.userStatus != null">
+      `user_status` = #{record.userStatus,jdbcType=SMALLINT}, 
+      </if>
+      <if test="record.deviceToken != null">
+      `device_token` = #{record.deviceToken,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.gradeId != null">
+      `grade_id` = #{record.gradeId,jdbcType=INTEGER}
+      </if>
+      <if test="record.address != null">
+      `address` = #{record.address,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="record.contact != null">
+      `contact` = #{record.contact,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="record.companyName != null">
+      `company_name` = #{record.companyName,jdbcType=LONGVARCHAR}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_user`
+    <set>
+      `name` = #{record.name,jdbcType=LONGVARCHAR}, 
+      `email` = #{record.email,jdbcType=LONGVARCHAR},
+      `nick_name` = #{record.nickName,jdbcType=LONGVARCHAR},
+      `create_time` = #{record.createTime,jdbcType=TIMESTAMP}, 
+      `login_time` = #{record.loginTime,jdbcType=TIMESTAMP}, 
+      `head_image` = #{record.headImage,jdbcType=LONGVARCHAR}, 
+      `mobile` = #{record.mobile,jdbcType=LONGVARCHAR}, 
+      `user_type` = #{record.userType,jdbcType=SMALLINT}, 
+      `user_status` = #{record.userStatus,jdbcType=SMALLINT}, 
+      `device_token` = #{record.deviceToken,jdbcType=LONGVARCHAR}, 
+      `grade_id` = #{record.gradeId,jdbcType=INTEGER},
+      `address` = #{record.address,jdbcType=LONGVARCHAR},
+      `contact` = #{record.contact,jdbcType=LONGVARCHAR},
+      `company_name` = #{record.companyName,jdbcType=INTEGER}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallyuser.model.TallyUser">
+    update `tally_user`
+    <set>
+      <if test="name != null">
+      `name` = #{name,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="email != null">
+      `email` = #{email,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="nickName != null">
+      `nick_name` = #{nickName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="createTime != null">
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="loginTime != null">
+      `login_time` = #{loginTime,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="headImage != null">
+      `head_image` = #{headImage,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="mobile != null">
+      `mobile` = #{mobile,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="userType != null">
+      `user_type` = #{userType,jdbcType=SMALLINT}, 
+      </if>
+      <if test="userStatus != null">
+      `user_status` = #{userStatus,jdbcType=SMALLINT}, 
+      </if>
+      <if test="deviceToken != null">
+      `device_token` = #{deviceToken,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="gradeId != null">
+      `grade_id` = #{gradeId,jdbcType=INTEGER}
+      </if>
+      <if test="address != null">
+      `address` = #{address,jdbcType=INTEGER}
+      </if>
+      <if test="contact != null">
+      `contact` = #{contact,jdbcType=INTEGER}
+      </if>
+      <if test="companyName != null">
+      `company_name` = #{companyName,jdbcType=INTEGER}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallyuser.model.TallyUser">
+    update `tally_user`
+    <set>
+      `name` = #{name,jdbcType=LONGVARCHAR}, 
+      `email` = #{email,jdbcType=LONGVARCHAR},
+      `nick_name` = #{nickName,jdbcType=LONGVARCHAR},
+      `create_time` = #{createTime,jdbcType=TIMESTAMP}, 
+      `login_time` = #{loginTime,jdbcType=TIMESTAMP}, 
+      `head_image` = #{headImage,jdbcType=LONGVARCHAR}, 
+      `mobile` = #{mobile,jdbcType=LONGVARCHAR}, 
+      `user_type` = #{userType,jdbcType=SMALLINT}, 
+      `user_status` = #{userStatus,jdbcType=SMALLINT}, 
+      `device_token` = #{deviceToken,jdbcType=LONGVARCHAR}, 
+      `grade_id` = #{gradeId,jdbcType=INTEGER},
+      `address` = #{address,jdbcType=LONGVARCHAR},
+      `contact` = #{contact,jdbcType=LONGVARCHAR},
+      `company_name` = #{companyName,jdbcType=LONGVARCHAR}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

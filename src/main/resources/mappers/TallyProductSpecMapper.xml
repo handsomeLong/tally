@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tally.dao.tallyproductspec.TallyProductSpecMapper">
+
+  <resultMap id="BaseResultMap" type="com.tally.dao.tallyproductspec.model.TallyProductSpec">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="product_id" jdbcType="INTEGER" property="productId"/>
+    <result column="spec_name" jdbcType="LONGVARCHAR" property="specName"/>
+    <result column="spec_images" jdbcType="LONGVARCHAR" property="specImages"/>
+    <result column="spec_serial" jdbcType="LONGVARCHAR" property="specSerial"/>
+    <result column="spec_unit" jdbcType="VARCHAR" property="specUnit"/>
+    <result column="spec_storage" jdbcType="INTEGER" property="specStorage"/>
+    <result column="spec_storage_freeze" jdbcType="INTEGER" property="specStorageFreeze"/>
+    <result column="spec_price" jdbcType="DECIMAL" property="specPrice"/>
+    <result column="spec_stock_price" jdbcType="DECIMAL" property="specStockPrice"/>
+    <result column="spec_cost_price" jdbcType="DECIMAL" property="specCostPrice"/>
+    <result column="is_del" jdbcType="SMALLINT" property="isDel"/>
+  </resultMap>
+  <resultMap id="BaseResultMapWithProduct" type="com.tally.api.outputDto.ProductSpecOutputDto">
+      <result column="product_name" jdbcType="LONGVARCHAR" property="productName"/>
+      <result column="product_no" jdbcType="LONGVARCHAR" property="productNo"/>
+      <result column="product_id" jdbcType="INTEGER" property="productId"/>
+      <result column="spec_id" jdbcType="INTEGER" property="specId"/>
+      <result column="spec_name" jdbcType="LONGVARCHAR" property="specName"/>
+      <result column="spec_unit" jdbcType="VARCHAR" property="specUnit"/>
+      <result column="spec_images" jdbcType="LONGVARCHAR" property="specImages"/>
+      <result column="spec_serial" jdbcType="LONGVARCHAR" property="specSerial"/>
+      <result column="spec_storage" jdbcType="INTEGER" property="specStorage"/>
+      <result column="spec_price" jdbcType="DECIMAL" property="specPrice"/>
+      <result column="spec_cost_price" jdbcType="DECIMAL" property="specCostPrice"/>
+      <result column="spec_stock_price" jdbcType="DECIMAL" property="specStockPrice"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+       `id`,
+      `product_id`,
+      `spec_name`,
+      `spec_serial`,
+      `spec_unit`,
+      `spec_images`,
+      `spec_storage`,
+      `spec_storage_freeze`,
+      `spec_price`,
+      `spec_stock_price`,
+      `spec_cost_price`,
+      `remark`,
+      `is_del`
+  </sql>
+  <select id="selectByExample" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpecExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `tally_product_spec`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `tally_product_spec`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByProductId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from `tally_product_spec`
+    where `product_id` = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tally_product_spec`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpecExample">
+    delete from `tally_product_spec`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpec">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_product_spec` (
+      `product_id`, 
+      `spec_name`, 
+      `spec_images`,
+      `spec_serial`,
+      `spec_storage`, 
+      `spec_storage_freeze`,
+      `spec_price`,
+      `spec_cost_price`, 
+      `is_del`
+    )
+    values (
+      #{productId,jdbcType=INTEGER}, 
+      #{specName,jdbcType=LONGVARCHAR}, 
+      #{specImages,jdbcType=LONGVARCHAR},
+      #{specSerial,jdbcType=LONGVARCHAR},
+      #{specStorage,jdbcType=INTEGER}, 
+      #{specStorageFreeze,jdbcType=INTEGER},
+      #{specPrice,jdbcType=DECIMAL},
+      #{specCostPrice,jdbcType=DECIMAL}, 
+      #{isDel,jdbcType=SMALLINT}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpec">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `tally_product_spec`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+      `product_id`,
+      </if>
+      <if test="specName != null">
+      `spec_name`,
+      </if>
+      <if test="specImages != null">
+      `spec_images`,
+      </if>
+      <if test="specSerial != null">
+      `spec_serial`,
+      </if>
+      <if test="specStorage != null">
+      `spec_storage`,
+      </if>
+      <if test="specStorageFreeze != null">
+      `spec_storage_freeze`,
+      </if>
+      <if test="specPrice != null">
+      `spec_price`,
+      </if>
+      <if test="specCostPrice != null">
+      `spec_cost_price`,
+      </if>
+      <if test="isDel != null">
+      `is_del`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="specName != null">
+        #{specName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="specImages != null">
+        #{specImages,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="specSerial != null">
+        #{specSerial,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="specStorage != null">
+        #{specStorage,jdbcType=INTEGER},
+      </if>
+      <if test="specStorageFreeze != null">
+        #{specStorageFreeze,jdbcType=INTEGER},
+      </if>
+      <if test="specPrice != null">
+        #{specPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="specCostPrice != null">
+        #{specCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch">
+    insert into
+    tally_product_spec
+    (
+      product_id,
+      spec_name,
+      spec_serial,
+      spec_unit,
+      spec_images,
+      spec_storage,
+      spec_price,
+      spec_stock_price,
+      spec_cost_price,
+      remark
+    )
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{item.productId,jdbcType=INTEGER},
+      #{item.specName,jdbcType=VARCHAR},
+      #{item.specSerial,jdbcType=VARCHAR},
+      #{item.specUnit,jdbcType=VARCHAR},
+      #{item.specImages,jdbcType=VARCHAR},
+      #{item.specStorage,jdbcType=INTEGER},
+      #{item.specPrice,jdbcType=DECIMAL},
+      #{item.specStockPrice,jdbcType=DECIMAL},
+      #{item.specCostPrice,jdbcType=DECIMAL},
+      #{item.remark,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+    <select id="countByExample" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpecExample" resultType="java.lang.Integer">
+    select count(*) from `tally_product_spec`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+    <select id="findWithProduct" resultMap="BaseResultMapWithProduct">
+      select  spec.*,spec.id as spec_id,p.product_no,p.name as product_name  from tally_product_spec spec
+      LEFT JOIN tally_product p on p.id = spec.product_id where p.user_id
+        in <foreach collection="userIdList" open="(" separator="," close=")" item="id">
+               #{id}
+            </foreach>
+       order by spec.id desc
+    </select>
+    <select id="findbyIds" resultMap="BaseResultMap">
+       select *  from `tally_product_spec` where id in (${ids});
+    </select>
+    <select id="findByUserId" resultMap="BaseResultMap">
+        select tpp.* from tally_product_spec tpp
+        LEFT JOIN tally_product tp on tp.id=tpp.product_id
+        where tp.user_id = #{userId} and tpp.spec_name = #{spec.specName}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update `tally_product_spec`
+    <set>
+      <if test="record.productId != null">
+      `product_id` = #{record.productId,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.specName != null">
+      `spec_name` = #{record.specName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.specImages != null">
+      `spec_images` = #{record.specImages,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.specSerial != null">
+      `spec_serial` = #{record.specSerial,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.specStorage != null">
+      `spec_storage` = #{record.specStorage,jdbcType=INTEGER}, 
+      </if>
+      <if test="record.specStorageFreeze != null">
+      `spec_storage_freeze` = #{record.specStorageFreeze,jdbcType=INTEGER},
+      </if>
+      <if test="record.specPrice != null">
+      `spec_price` = #{record.specPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.specCostPrice != null">
+      `spec_cost_price` = #{record.specCostPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="record.isDel != null">
+      `is_del` = #{record.isDel,jdbcType=SMALLINT}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `tally_product_spec`
+    <set>
+      `product_id` = #{record.productId,jdbcType=INTEGER}, 
+      `spec_name` = #{record.specName,jdbcType=LONGVARCHAR}, 
+      `spec_images` = #{record.specImages,jdbcType=LONGVARCHAR},
+      `spec_serial` = #{record.specSerial,jdbcType=LONGVARCHAR},
+      `spec_storage` = #{record.specStorage,jdbcType=INTEGER}, 
+      `spec_storage_freeze` = #{record.specStorageFreeze,jdbcType=INTEGER},
+      `spec_price` = #{record.specPrice,jdbcType=DECIMAL},
+      `spec_cost_price` = #{record.specCostPrice,jdbcType=DECIMAL}, 
+      `is_del` = #{record.isDel,jdbcType=SMALLINT}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpec">
+    update `tally_product_spec`
+    <set>
+      <if test="productId != null">
+      `product_id` = #{productId,jdbcType=INTEGER}, 
+      </if>
+      <if test="specName != null">
+      `spec_name` = #{specName,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="specImages != null">
+      `spec_images` = #{specImages,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="specSerial != null">
+      `spec_serial` = #{specSerial,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="specStorage != null">
+      `spec_storage` = #{specStorage,jdbcType=INTEGER}, 
+      </if>
+      <if test="specStorageFreeze != null">
+      `spec_storage_freeze` = #{specStorageFreeze,jdbcType=INTEGER},
+      </if>
+      <if test="specPrice != null">
+      `spec_price` = #{specPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="specCostPrice != null">
+      `spec_cost_price` = #{specCostPrice,jdbcType=DECIMAL}, 
+      </if>
+      <if test="isDel != null">
+      `is_del` = #{isDel,jdbcType=SMALLINT}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tally.dao.tallyproductspec.model.TallyProductSpec">
+    update `tally_product_spec`
+    <set>
+      `product_id` = #{productId,jdbcType=INTEGER}, 
+      `spec_name` = #{specName,jdbcType=LONGVARCHAR}, 
+      `spec_images` = #{specImages,jdbcType=LONGVARCHAR},
+      `spec_serial` = #{specSerial,jdbcType=LONGVARCHAR},
+      `spec_storage` = #{specStorage,jdbcType=INTEGER}, 
+      `spec_storage_freeze` = #{specStorageFreeze,jdbcType=INTEGER},
+      `spec_price` = #{specPrice,jdbcType=DECIMAL},
+      `spec_cost_price` = #{specCostPrice,jdbcType=DECIMAL}, 
+      `is_del` = #{isDel,jdbcType=SMALLINT}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateStorageAdd">
+        update tally_product_spec set spec_storage = spec_storage + #{specNum} where id = #{productSpecId}
+    </update>
+  <update id="updateStorageSubtract">
+        update tally_product_spec set spec_storage = spec_storage - #{specNum} where id = #{productSpecId}
+   </update>
+</mapper>

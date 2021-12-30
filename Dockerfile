@@ -6,7 +6,7 @@ ADD ./pom.xml pom.xml
 ADD ./src src/
 
 # package jar
-RUN mvn clean package
+RUN mvn clean install -Dmaven.test.skip=true
 
 # Second stage: minimal runtime environment
 From openjdk:8-jre-alpine
